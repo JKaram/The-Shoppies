@@ -1,10 +1,17 @@
 import React from 'react';
 
 
-export function SearchBar() {
+export function SearchBar({ searchTerm, updateText, search }) {
     return (
         <div>
-            <input></input>
+            <input value={searchTerm}
+                onChange={(event) => {
+                    updateText(event.target.value);
+                }}
+            ></input>
+            <button onClick={(e) => {
+                search(searchTerm)
+            }}>Search</button>
         </div>
     )
 }
