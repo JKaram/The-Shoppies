@@ -27,9 +27,18 @@ function App() {
   };
 
   const addNom = (newNom) => {
+    if (noms.includes(newNom)) return
     setState((prevState) => ({ ...prevState, noms: [...noms, newNom] }));
   }
-  console.log(noms)
+
+  const removeNom = (nomToRemove) => {
+    for (let i in noms) {
+      if (noms[i].Title === nomToRemove.Title) {
+        setState((prevState) => ({ ...prevState, noms: noms.splice(i, 1) }));
+      }
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -50,9 +59,9 @@ function App() {
 
       <div>
         {noms && (
-          noms.map(searchResult => (
+          noms.map(nom => (
             <>
-              <div key={searchResult.imdID}>{searchResult.Title}</div>
+              <div key={nom.imdID} onClick={() => removeNom(nom)}>{nom.Title}</div>
             </>
           ))
         )}
