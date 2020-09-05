@@ -4,7 +4,7 @@ import styled, { ThemeProvider } from 'styled-components/macro';
 import GlobalStyle from './Global';
 import theme from "themes/theme";
 
-import { SearchBar } from "./components"
+import { SearchBar, MovieItem } from "./components"
 import { searchMovies } from "./utils"
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
   };
 
   const addNom = (newNom) => {
+    if (noms.length >= 5) return
     if (noms.includes(newNom)) return
     setState((prevState) => ({ ...prevState, noms: [...noms, newNom] }));
   }
@@ -47,12 +48,17 @@ function App() {
         updateText={updateText}
         search={search}
       />
+
       <div>
         {searchResults && (
           searchResults.map(searchResult => (
-            <>
-              <div key={searchResult.title} onClick={() => addNom(searchResult)}>{searchResult.Title}</div>
-            </>
+            <MovieItem
+              modifiers="disabled"
+              key={searchResult.imdbID}
+              addNom={addNom}
+              movieInfo={searchResult}>
+              {searchResult.Title}
+            </MovieItem>
           ))
         )}
       </div>
