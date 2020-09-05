@@ -10,20 +10,25 @@ import { searchMovies } from "./utils"
 function App() {
   const [state, setState] = useState({
     searchTerm: "",
+    searchResults: [],
     noms: [],
     loading: false,
   });
 
-  const { searchTerm, noms, loading } = state;
+  const { searchTerm, searchResults, noms, loading } = state;
 
   const search = async (text) => {
     const movieList = await searchMovies(text)
-    return setState((prevState) => ({ ...prevState, noms: movieList.Search }));
+    return setState((prevState) => ({ ...prevState, searchResults: movieList.Search }));
   }
 
   const updateText = (text) => {
     setState((prevState) => ({ ...prevState, searchTerm: text }));
   };
+
+  const addNom = (newNom) => {
+    setState((prevState) => ({ ...prevState, noms: [...noms, newNom] }));
+  }
   console.log(noms)
   return (
     <ThemeProvider theme={theme}>
@@ -34,14 +39,25 @@ function App() {
         search={search}
       />
       <div>
-        {noms && (
-          noms.map(nom => (
+        {searchResults && (
+          searchResults.map(searchResult => (
             <>
-              <div key={nom.title}>{nom.Title}</div>
+              <div key={searchResult.title} onClick={() => addNom(searchResult)}>{searchResult.Title}</div>
             </>
           ))
         )}
       </div>
+
+      <div>
+        {noms && (
+          noms.map(searchResult => (
+            <>
+              <div key={searchResult.imdID}>{searchResult.Title}</div>
+            </>
+          ))
+        )}
+      </div>
+
     </ThemeProvider>
   );
 }
