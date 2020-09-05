@@ -32,12 +32,23 @@ function App() {
     setState((prevState) => ({ ...prevState, noms: [...noms, newNom] }));
   }
 
+
   const removeNom = (nomToRemove) => {
     for (let i in noms) {
-      if (noms[i].Title === nomToRemove.Title) {
+      if (noms[i].imdbID === nomToRemove.imdbID) {
+        console.log(i, "i")
         setState((prevState) => ({ ...prevState, noms: noms.splice(i, 1) }));
       }
     }
+  }
+
+  const isNominated = (movieId) => {
+    for (let i in noms) {
+      if (noms[i].imdbID === movieId) {
+        return true
+      }
+    }
+    return false
   }
 
   return (
@@ -53,9 +64,10 @@ function App() {
         {searchResults && (
           searchResults.map(searchResult => (
             <MovieItem
-              modifiers="disabled"
               key={searchResult.imdbID}
               addNom={addNom}
+              removeNom={removeNom}
+              isNominated={isNominated(searchResult.imdbID)}
               movieInfo={searchResult}>
               {searchResult.Title}
             </MovieItem>
