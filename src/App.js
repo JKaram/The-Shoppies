@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import styled, { ThemeProvider } from 'styled-components/macro';
 import GlobalStyle from './Global';
@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie';
 
 
 
-import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout } from "./components"
+import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout, Spinner } from "./components"
 import { searchMovies } from "./utils"
 
 function App() {
@@ -17,19 +17,36 @@ function App() {
   const [state, setState] = useState({
     searchTerm: "",
     searchResults: [],
-    noms: [...cookies.nominations],
+    noms: [],
     loading: false,
   });
 
   const { searchTerm, searchResults, noms, loading } = state;
 
+  // Set cookies
+  useEffect(() => {
+    if (cookies.nominations) {
+      setState((prevState) => ({ ...prevState, noms: [...cookies.nominations] }));
+    }
+  }, [cookies.nominations]);
+
   const search = async (text) => {
+    setState((prevState) => ({ ...prevState, loading: true }));
     const movieList = await searchMovies(text)
-    return setState((prevState) => ({ ...prevState, searchResults: movieList.Search }));
-  }
+    setState((prevState) => ({ ...prevState, searchResults: movieList.Search }));
+
+    setTimeout(function () {
+      setState((prevState) => ({
+        ...prevState,
+        loading: false,
+      }));
+    }, 1500);
+  };
+
+
 
   const debouncedSearch = useCallback(
-    debounce((text) => search(text), 500),
+    debounce((text) => search(text), 250),
     []
   );
 
@@ -70,6 +87,7 @@ function App() {
       searchResults: [],
     }));
   };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -82,7 +100,8 @@ function App() {
               updateText={updateText}
               clearResults={clearResults}
             />
-            {searchResults && (
+            {loading && <Spinner />}
+            {searchResults && !loading && (
               searchResults.map(searchResult => (
                 <MovieItem
                   key={searchResult.imdbID}
@@ -101,9 +120,7 @@ function App() {
             <ProgressBar percent={noms.length} />
             {noms && (
               noms.map(nom => (
-                <>
-                  <div key={nom.imdID} onClick={() => removeNom(nom)}>{nom.Title}</div>
-                </>
+                <div key={nom.Title} onClick={() => removeNom(nom)}>{nom.Title}</div>
               ))
             )}
 
