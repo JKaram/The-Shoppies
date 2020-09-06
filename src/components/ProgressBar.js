@@ -14,5 +14,6 @@ export function ProgressBar({ percent }) {
 const Bar = styled.div`
     height: 3rem;
     background-color: green;
-    width: ${p => `${p.progress * 20}%`}
+    width: ${p => `${p.progress * 20}%`};
+    transition: width .5s
 `
