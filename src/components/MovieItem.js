@@ -28,7 +28,7 @@ export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
     <Wrapper
       modifiers={isDisabled === true ? "disabled" : ""}
     >
-      <div class="header">
+      <div className="header">
         <div style={{ display: "flex", alignItems: "flex-end" }}>
           <h2>{movieInfo.Title}</h2>
           <h4>{movieInfo.Year}</h4>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 import fresh from "images/tomato-fresh.png"
 import notFresh from "images/tomato-notFresh.png"
@@ -15,7 +15,7 @@ export function MoreInfo({ movieInfo }) {
         <Wrapper>
 
             <Poster src={movieInfo.Poster} alt={movieInfo.Title} />
-            <div class="info">
+            <div className="info">
                 <p >{movieInfo.Plot}</p>
                 <div>
                     <h4>Director</h4>
@@ -36,7 +36,7 @@ export function MoreInfo({ movieInfo }) {
 
 
 
-                    <a href={`https://www.imdb.com/title/${movieInfo.imdbID}`} target="_blank">IMDB</a>
+                    <a href={`https://www.imdb.com/title/${movieInfo.imdbID}`} target="_blank" rel="noopener noreferrer">IMDB</a>
                 </div>
             </div>
         </Wrapper>

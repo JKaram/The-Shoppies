@@ -28,6 +28,7 @@ function App() {
     if (cookies.nominations) {
       setState((prevState) => ({ ...prevState, noms: [...cookies.nominations] }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const search = async (text) => {
@@ -62,10 +63,7 @@ function App() {
   const removeNom = (nomToRemove) => {
     for (let i in noms) {
       if (noms[i].imdbID === nomToRemove.imdbID) {
-
-
         const updatedNoms = noms.filter(nom => nom.imdbID !== nomToRemove.imdbID)
-        console.log(updatedNoms, "update noms")
         setState((prevState) => ({ ...prevState, noms: updatedNoms }));
         setCookie('nominations', noms);
       }
