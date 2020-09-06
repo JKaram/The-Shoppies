@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 
-import styled, { ThemeProvider } from 'styled-components/macro';
+import { ThemeProvider } from 'styled-components/macro';
 import GlobalStyle from './Global';
 import theme from "themes/theme";
 import debounce from "lodash/debounce";
@@ -28,7 +28,7 @@ function App() {
     if (cookies.nominations) {
       setState((prevState) => ({ ...prevState, noms: [...cookies.nominations] }));
     }
-  }, [cookies.nominations]);
+  }, []);
 
   const search = async (text) => {
     setState((prevState) => ({ ...prevState, loading: true }));
@@ -42,8 +42,6 @@ function App() {
       }));
     }, 1500);
   };
-
-
 
   const debouncedSearch = useCallback(
     debounce((text) => search(text), 250),
@@ -61,11 +59,13 @@ function App() {
     setCookie('nominations', noms);
   }
 
-
   const removeNom = (nomToRemove) => {
     for (let i in noms) {
       if (noms[i].imdbID === nomToRemove.imdbID) {
-        const updatedNoms = noms.splice(i, 1);
+
+
+        const updatedNoms = noms.filter(nom => nom.imdbID !== nomToRemove.imdbID)
+        console.log(updatedNoms, "update noms")
         setState((prevState) => ({ ...prevState, noms: updatedNoms }));
         setCookie('nominations', noms);
       }
@@ -92,30 +92,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <PageLayout>
-        <div style={{ display: "flex" }}>
-          <SearchResultsArea >
-            <SearchBar
-              searchTerm={searchTerm}
-              debouncedSearch={debouncedSearch}
-              updateText={updateText}
-              clearResults={clearResults}
-            />
-            {loading && <Spinner />}
-            {searchResults && !loading && (
-              searchResults.map(searchResult => (
-                <MovieItem
-                  key={searchResult.imdbID}
-                  addNom={addNom}
-                  removeNom={removeNom}
-                  isNominated={isNominated(searchResult.imdbID)}
-                  movieInfo={searchResult}>
-                  {searchResult.Title}
-                </MovieItem>
-
-              ))
-            )}
-          </SearchResultsArea>
-
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <NominationArea>
             <ProgressBar percent={noms.length} />
             {noms && (
@@ -123,8 +100,30 @@ function App() {
                 <div key={nom.Title} onClick={() => removeNom(nom)}>{nom.Title}</div>
               ))
             )}
-
           </NominationArea>
+          <SearchResultsArea >
+            <SearchBar
+              searchTerm={searchTerm}
+              debouncedSearch={debouncedSearch}
+              updateText={updateText}
+              clearResults={clearResults}
+            />
+
+            {loading && <Spinner />}
+
+            {searchResults && !loading && (
+              searchResults.map(searchResult => (
+                <MovieItem
+                  key={searchResult.imdbID}
+                  addNom={addNom}
+                  removeNom={removeNom}
+                  isNominated={isNominated(searchResult.imdbID)}
+                  movieInfo={searchResult} />
+              ))
+            )}
+          </SearchResultsArea>
+
+
         </div>
       </PageLayout>
     </ThemeProvider>
