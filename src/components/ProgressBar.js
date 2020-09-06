@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import styled from "styled-components"
 
 export function ProgressBar({ percent }) {
-    const [progress, setProgress] = useState(0)
 
     return (
         <div style={{ height: '3rem', backgroundColor: "grey" }}>

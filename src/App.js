@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie';
 
 
 
-import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem } from "./components"
+import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout } from "./components"
 import { searchMovies } from "./utils"
 
 function App() {
@@ -48,8 +48,8 @@ function App() {
   const removeNom = (nomToRemove) => {
     for (let i in noms) {
       if (noms[i].imdbID === nomToRemove.imdbID) {
-        console.log(i, "i")
-        setState((prevState) => ({ ...prevState, noms: noms.splice(i, 1) }));
+        const updatedNoms = noms.splice(i, 1);
+        setState((prevState) => ({ ...prevState, noms: updatedNoms }));
         setCookie('nominations', noms);
       }
     }
@@ -70,48 +70,46 @@ function App() {
       searchResults: [],
     }));
   };
-  console.log(cookies)
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <div style={{ display: "flex" }}>
-        <SearchResultsArea >
-          <SearchBar
-            searchTerm={searchTerm}
-            debouncedSearch={debouncedSearch}
-            updateText={updateText}
-            clearResults={clearResults}
-          />
-          {searchResults && (
-            searchResults.map(searchResult => (
-              <MovieItem
-                key={searchResult.imdbID}
-                addNom={addNom}
-                removeNom={removeNom}
-                isNominated={isNominated(searchResult.imdbID)}
-                movieInfo={searchResult}>
-                {searchResult.Title}
-              </MovieItem>
+      <PageLayout>
+        <div style={{ display: "flex" }}>
+          <SearchResultsArea >
+            <SearchBar
+              searchTerm={searchTerm}
+              debouncedSearch={debouncedSearch}
+              updateText={updateText}
+              clearResults={clearResults}
+            />
+            {searchResults && (
+              searchResults.map(searchResult => (
+                <MovieItem
+                  key={searchResult.imdbID}
+                  addNom={addNom}
+                  removeNom={removeNom}
+                  isNominated={isNominated(searchResult.imdbID)}
+                  movieInfo={searchResult}>
+                  {searchResult.Title}
+                </MovieItem>
 
-            ))
-          )}
-        </SearchResultsArea>
+              ))
+            )}
+          </SearchResultsArea>
 
+          <NominationArea>
+            <ProgressBar percent={noms.length} />
+            {noms && (
+              noms.map(nom => (
+                <>
+                  <div key={nom.imdID} onClick={() => removeNom(nom)}>{nom.Title}</div>
+                </>
+              ))
+            )}
 
-
-
-        <NominationArea>
-          <ProgressBar percent={noms.length} />
-          {noms && (
-            noms.map(nom => (
-              <>
-                <div key={nom.imdID} onClick={() => removeNom(nom)}>{nom.Title}</div>
-              </>
-            ))
-          )}
-
-        </NominationArea>
-      </div>
+          </NominationArea>
+        </div>
+      </PageLayout>
     </ThemeProvider>
   );
 }
