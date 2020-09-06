@@ -5,7 +5,6 @@ import { applyStyleModifiers } from 'styled-components-modifiers';
 import { moreMovieInfo } from "utils";
 import { MoreInfo } from "components"
 
-
 export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
   const [isDisabled, setDisabled] = useState(isNominated);
   const [moreInfo, setMoreInfo] = useState(null);

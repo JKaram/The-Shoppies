@@ -4,16 +4,20 @@ import styled, { ThemeProvider } from 'styled-components/macro';
 import GlobalStyle from './Global';
 import theme from "themes/theme";
 import debounce from "lodash/debounce";
+import { useCookies } from 'react-cookie';
+
 
 
 import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem } from "./components"
 import { searchMovies } from "./utils"
 
 function App() {
+  const [cookies, setCookie] = useCookies(['nominations']);
+
   const [state, setState] = useState({
     searchTerm: "",
     searchResults: [],
-    noms: [],
+    noms: [...cookies.nominations],
     loading: false,
   });
 
@@ -37,6 +41,7 @@ function App() {
     if (noms.length >= 5) return
     if (noms.includes(newNom)) return
     setState((prevState) => ({ ...prevState, noms: [...noms, newNom] }));
+    setCookie('nominations', noms);
   }
 
 
@@ -45,6 +50,7 @@ function App() {
       if (noms[i].imdbID === nomToRemove.imdbID) {
         console.log(i, "i")
         setState((prevState) => ({ ...prevState, noms: noms.splice(i, 1) }));
+        setCookie('nominations', noms);
       }
     }
   }
@@ -64,7 +70,7 @@ function App() {
       searchResults: [],
     }));
   };
-
+  console.log(cookies)
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
