@@ -4,15 +4,16 @@ import styled from "styled-components"
 export function ProgressBar({ percent }) {
 
     return (
-        <div style={{ height: '3rem', backgroundColor: "grey" }}>
-            <Bar progress={percent} />
+        <div style={{ height: '2rem', backgroundColor: "#efefef", borderRadius: "4px" }}>
+            <Bar progress={percent} >{percent} / 5</Bar>
         </div >
     )
 }
 
 const Bar = styled.div`
-    height: 3rem;
-    background-color: green;
+    height: 2rem;
+    background-color: #18F706;
     width: ${p => `${p.progress * 20}%`};
-    transition: width .5s
+    transition: width .5s;
+    border-radius: 4px
 `

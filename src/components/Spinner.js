@@ -10,12 +10,12 @@ const rotation = keyframes`
 `;
 
 export const Spinner = styled.div`
-  height: 3rem;
-  width: 3rem;
-  border: 1px solid #f8049c;
+  height: 6rem;
+  width: 6rem;
+  border: 3px solid #000c;
   border-radius: 50%;
   border-top: none;
   border-right: none;
-  margin: 16px auto;
+  margin: auto auto;
   animation: ${rotation} 1s linear infinite;
 `;

@@ -92,15 +92,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <PageLayout>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <NominationArea>
-            <ProgressBar percent={noms.length} />
-            {noms && (
-              noms.map(nom => (
-                <div key={nom.Title} onClick={() => removeNom(nom)}>{nom.Title}</div>
-              ))
-            )}
-          </NominationArea>
+        <div style={{ display: "flex" }}>
+
           <SearchResultsArea >
             <SearchBar
               searchTerm={searchTerm}
@@ -122,7 +115,14 @@ function App() {
               ))
             )}
           </SearchResultsArea>
-
+          <NominationArea>
+            <ProgressBar percent={noms.length} />
+            {noms && (
+              noms.map(nom => (
+                <div key={nom.Title} onClick={() => removeNom(nom)}>{nom.Title}</div>
+              ))
+            )}
+          </NominationArea>
 
         </div>
       </PageLayout>
