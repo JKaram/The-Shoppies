@@ -3,8 +3,10 @@ import React, { useState, useCallback } from "react";
 import styled, { ThemeProvider } from 'styled-components/macro';
 import GlobalStyle from './Global';
 import theme from "themes/theme";
+import debounce from "lodash/debounce";
 
-import { SearchBar, MovieItem } from "./components"
+
+import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem } from "./components"
 import { searchMovies } from "./utils"
 
 function App() {
@@ -21,6 +23,11 @@ function App() {
     const movieList = await searchMovies(text)
     return setState((prevState) => ({ ...prevState, searchResults: movieList.Search }));
   }
+
+  const debouncedSearch = useCallback(
+    debounce((text) => search(text), 500),
+    []
+  );
 
   const updateText = (text) => {
     setState((prevState) => ({ ...prevState, searchTerm: text }));
@@ -51,40 +58,54 @@ function App() {
     return false
   }
 
+  const clearResults = () => {
+    setState((prevState) => ({
+      ...prevState,
+      searchResults: [],
+    }));
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <SearchBar
-        searchTerm={searchTerm}
-        updateText={updateText}
-        search={search}
-      />
+      <div style={{ display: "flex" }}>
+        <SearchResultsArea >
+          <SearchBar
+            searchTerm={searchTerm}
+            debouncedSearch={debouncedSearch}
+            updateText={updateText}
+            clearResults={clearResults}
+          />
+          {searchResults && (
+            searchResults.map(searchResult => (
+              <MovieItem
+                key={searchResult.imdbID}
+                addNom={addNom}
+                removeNom={removeNom}
+                isNominated={isNominated(searchResult.imdbID)}
+                movieInfo={searchResult}>
+                {searchResult.Title}
+              </MovieItem>
 
-      <div>
-        {searchResults && (
-          searchResults.map(searchResult => (
-            <MovieItem
-              key={searchResult.imdbID}
-              addNom={addNom}
-              removeNom={removeNom}
-              isNominated={isNominated(searchResult.imdbID)}
-              movieInfo={searchResult}>
-              {searchResult.Title}
-            </MovieItem>
-          ))
-        )}
+            ))
+          )}
+        </SearchResultsArea>
+
+
+
+
+        <NominationArea>
+          <ProgressBar percent={noms.length} />
+          {noms && (
+            noms.map(nom => (
+              <>
+                <div key={nom.imdID} onClick={() => removeNom(nom)}>{nom.Title}</div>
+              </>
+            ))
+          )}
+
+        </NominationArea>
       </div>
-
-      <div>
-        {noms && (
-          noms.map(nom => (
-            <>
-              <div key={nom.imdID} onClick={() => removeNom(nom)}>{nom.Title}</div>
-            </>
-          ))
-        )}
-      </div>
-
     </ThemeProvider>
   );
 }

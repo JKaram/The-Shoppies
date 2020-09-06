@@ -9,39 +9,39 @@ import { MoreInfo } from "components"
 export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
   const [isDisabled, setDisabled] = useState(isNominated);
   const [moreInfo, setMoreInfo] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const imdbID = movieInfo.imdbID
+
   // Set Movie Item to a disabled div
   useEffect(() => {
     setDisabled(isNominated)
   }, [isNominated]);
 
-  // MovieInfo
-  // Poster: "https://m.media-amazon.com/images/M/MV5BMTkyMTMwNjA3MV5BMl5BanBnXkFtZTcwNzE2NTI2OQ@@._V1_SX300.jpg"
-  // Title: "The Batman vs. Dracula"
-  // Type: "movie"
-  // Year: "2005"
-  // imdbID: "tt0472219"
-
-
   const loadMoreInfo = async () => {
     const moreInfo = await moreMovieInfo(imdbID)
     setMoreInfo(moreInfo)
+    setIsOpen(!isOpen)
     return
   }
 
   return (
-    <>
-      <Wrapper
-        modifiers={isDisabled === true ? "disabled" : ""}
-      >
-        {movieInfo.Title}
-        {movieInfo.Year}
-        <a href={`https://www.imdb.com/title/${imdbID}`} >Link to IMDB</a>
-        <button onClick={() => isNominated ? removeNom(movieInfo) : addNom(movieInfo)}>Nominate</button>
-        <button onClick={() => loadMoreInfo()}>Load More</button>
-      </Wrapper>
-      {moreInfo && (<MoreInfo movieInfo={moreInfo} />)}
-    </>
+
+    <Wrapper
+      modifiers={isDisabled === true ? "disabled" : ""}
+    >
+      <div class="header">
+        <div style={{ display: "flex", alignItems: "flex-end" }}>
+          <h2>{movieInfo.Title}</h2>
+          <h4>{movieInfo.Year}</h4>
+        </div>
+        <div>
+          <button onClick={() => isNominated ? removeNom(movieInfo) : addNom(movieInfo)}>Nominate</button>
+          <button onClick={() => loadMoreInfo()}>Load More</button>
+        </div>
+      </div>
+      {moreInfo && isOpen && (<MoreInfo movieInfo={moreInfo} />)}
+    </Wrapper>
+
   )
 }
 
@@ -55,14 +55,26 @@ const MOVIEITEM_MODIFIERS = {
 
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 5px 20px;
-  border-radius: 4px;
-  height: 30px;
-  border: 1px solid #000;
+  margin: 10px 0;
 
-  &:hover {
-    transform: scale(1.1);
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px
   }
+
+  h2, h4 {
+    margin: 0;
+    font-size: 12px;
+  }
+
+  h2 {
+    margin-right: 10px;
+    font-size: 16px;
+  }
+
   ${applyStyleModifiers(MOVIEITEM_MODIFIERS)};
 `;

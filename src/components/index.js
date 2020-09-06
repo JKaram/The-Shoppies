@@ -1,3 +1,6 @@
 export * from "./SearchBar"
 export * from "./MovieItem"
 export * from "./MoreInfo"
+export * from "./SearchResultsArea"
+export * from "./NominationArea"
+export * from "./ProgressBar"
