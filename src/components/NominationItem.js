@@ -5,7 +5,7 @@ export const NominationItem = styled.div`
  justify-content: space-between;
  align-items: center;
  padding: 24px 24px;
- margin: 16px 0;
+ margin: 8px 0;
  background-color: ${p => p.theme["light-blue"]};
  border-radius: 8px;
 
