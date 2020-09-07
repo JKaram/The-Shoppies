@@ -34,7 +34,7 @@ export function MovieItem({ movieInfo, addNomination, isNominated }) {
     >
       <div className="header">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <img src={movieInfo.Poster !== "N/A" ? movieInfo.Poster : invalidPoster} alt={movieInfo.Title} />
+          <img className="poster" src={movieInfo.Poster !== "N/A" ? movieInfo.Poster : invalidPoster} alt={movieInfo.Title} />
           <div>
             <h2>{movieInfo.Title}</h2>
             <h4>{movieInfo.Year}</h4>
@@ -48,9 +48,14 @@ export function MovieItem({ movieInfo, addNomination, isNominated }) {
           }}>Nominate</NominateButton>
         </div>
       </div>
-      {isOpen && (
-        <MoreInfo movieInfo={moreInfo} />
-      )}
+      <TransitionGroup component={SlideIn}>
+        {isOpen && (
+          <CSSTransition timeout={300} classNames="slide">
+            <MoreInfo movieInfo={moreInfo} />
+          </CSSTransition>
+        )}
+      </TransitionGroup>
+
     </Wrapper >
   )
 }
@@ -74,13 +79,14 @@ const Wrapper = styled.div`
   opacity: 1;
   transition: opacity 300ms ease-in-out;
   background-color: ${p => p.theme["light-blue"]};
+  cursor: pointer;
 
   .header {
   display: flex;
   justify-content: space-between;
 }
 
-img {
+.poster {
   height: 93px;
   width: 63px
 }
