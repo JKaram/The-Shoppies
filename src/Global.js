@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     height: calc(100vh - 12px);
     background: #fbfbfb;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    font-family: 'Manrope', sans-serif , "Roboto", "Oxygen",
       "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
       sans-serif;
     -webkit-font-smoothing: antialiased;
