@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { applyStyleModifiers } from 'styled-components-modifiers';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { fetchMovieDetails } from "utils";
 import { MoreInfo, NominateButton } from "components"
+import invalidPoster from "images/invalidPoster.png"
 import { SlideIn } from "styles"
-import { faAngleUp } from '@fortawesome/free-solid-svg-icons'
+import { fetchMovieDetails } from "utils";
 
 
 export function MovieItem({ movieInfo, addNomination, isNominated }) {
@@ -35,14 +34,18 @@ export function MovieItem({ movieInfo, addNomination, isNominated }) {
     >
       <div className="header">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <img src={movieInfo.Poster} alt={movieInfo.Title} />
+          <img src={movieInfo.Poster !== "N/A" ? movieInfo.Poster : invalidPoster} alt={movieInfo.Title} />
           <div>
             <h2>{movieInfo.Title}</h2>
             <h4>{movieInfo.Year}</h4>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
-          <NominateButton onClick={() => addNomination(movieInfo)}>Nominate</NominateButton>
+          <NominateButton onClick={(e) => {
+            e.stopPropagation();
+            addNomination(movieInfo);
+            setIsOpen(false);
+          }}>Nominate</NominateButton>
         </div>
       </div>
       {isOpen && (
@@ -65,13 +68,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 145px;
+  height: 100%;
   margin: 8px 0;
   padding: 24px 24px;
   opacity: 1;
   transition: opacity 300ms ease-in-out;
   background-color: ${p => p.theme["light-blue"]};
-
 
   .header {
   display: flex;
