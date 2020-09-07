@@ -30,28 +30,28 @@ const ClearButton = styled.button`
 `;
 
 export function SearchBar({ searchTerm, debouncedSearch, updateText, clearResults }) {
-    return (
-        <SearchBoxWrapper>
-            <SearchInput
-                id="text"
-                value={searchTerm}
-                autoComplete="off"
-                maxLength="50"
-                placeholder="Enter Actor Name"
-                onChange={(event) => {
-                    updateText(event.target.value);
-                    debouncedSearch(event.target.value);
-                }}
-            />
-            <ClearButton
-                onClick={() => {
-                    clearResults();
-                    updateText("");
-                }}
-                disabled={!searchTerm}
-            >
-                Clear
+  return (
+    <SearchBoxWrapper>
+      <SearchInput
+        id="text"
+        value={searchTerm}
+        autoComplete="off"
+        maxLength="50"
+        placeholder="Search Movie Title"
+        onChange={(event) => {
+          updateText(event.target.value);
+          debouncedSearch(event.target.value);
+        }}
+      />
+      <ClearButton
+        onClick={() => {
+          clearResults();
+          updateText("");
+        }}
+        disabled={!searchTerm}
+      >
+        Clear
       </ClearButton>
-        </SearchBoxWrapper>
-    );
+    </SearchBoxWrapper>
+  );
 }

@@ -1,12 +1,16 @@
 import React, { useState, useCallback, useEffect } from "react";
+import styled from "styled-components";
 
 import { ThemeProvider } from 'styled-components/macro';
 import GlobalStyle from './Global';
 import theme from "themes/theme";
 import debounce from "lodash/debounce";
 import { useCookies } from 'react-cookie';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout, Spinner } from "./components"
 import { searchMovies } from "./utils"
@@ -115,11 +119,19 @@ function App() {
           </SearchResultsArea>
           <NominationArea>
             <ProgressBar percent={noms.length} />
-            {noms && (
-              noms.map(nom => (
-                <div key={nom.Title} onClick={() => removeNom(nom)}>{nom.Title}</div>
-              ))
-            )}
+            <TransitionGroup component={NomsHolder}>
+              {noms && (
+                noms.map(nom => (
+                  <CSSTransition key={nom.Title} timeout={300} classNames="transition">
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 5px", margin: "10px 0" }}>
+                      <div >{nom.Title}</div>
+                      <FontAwesomeIcon icon={faTimes} onClick={() => removeNom(nom)} />
+                    </div>
+                  </CSSTransition>
+                ))
+              )}
+            </TransitionGroup>
+
           </NominationArea>
 
         </div>
@@ -129,3 +141,26 @@ function App() {
 }
 
 export default App;
+
+
+const NomsHolder = styled.div`
+
+  .transition-enter {
+    opacity: 0.01;
+    transform: translate(0, -10px);
+  }
+  .transition-enter-active {
+    opacity: 1;
+    transform: translate(0, 0);
+    transition: all 300ms ease-in;
+  }
+  .transition-exit {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  .transition-exit-active {
+    opacity: 0.01;
+    transform: translate(0, 10px);
+    transition: all 300ms ease-in;
+  }
+`;
