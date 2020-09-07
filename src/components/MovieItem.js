@@ -10,7 +10,7 @@ import { SlideIn } from "styles"
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons'
 
 
-export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
+export function MovieItem({ movieInfo, addNomination, isNominated }) {
   const [isDisabled, setDisabled] = useState(isNominated);
   const [moreInfo, setMoreInfo] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -21,41 +21,34 @@ export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
     setDisabled(isNominated)
   }, [isNominated]);
 
-  const loadMoreInfo = async () => {
+  const loadMovieDetails = async () => {
     const moreInfo = await fetchMovieDetails(imdbID)
-    setIsOpen(!isOpen)
     setMoreInfo(moreInfo)
+    setIsOpen(!isOpen)
   }
 
   return (
 
     <Wrapper
       modifiers={isDisabled === true ? "disabled" : ""}
+      onClick={() => loadMovieDetails()}
     >
       <div className="header">
         <div style={{ display: "flex", alignItems: "center" }}>
-          <h2>{movieInfo.Title}</h2>
-          <h4>{movieInfo.Year}</h4>
+          <img src={movieInfo.Poster} alt={movieInfo.Title} />
+          <div>
+            <h2>{movieInfo.Title}</h2>
+            <h4>{movieInfo.Year}</h4>
+          </div>
         </div>
-        <div>
-          <span className="more-info">
-            <FontAwesomeIcon icon={faAngleUp} onClick={() => loadMoreInfo()} />
-          Learn More
-          </span>
-          <NominateButton onClick={() => isNominated ? removeNom(movieInfo) : addNom(movieInfo)}>Nominate</NominateButton>
-
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <NominateButton onClick={() => addNomination(movieInfo)}>Nominate</NominateButton>
         </div>
       </div>
-      <TransitionGroup component={SlideIn}>
-        {isOpen && moreInfo && (
-          <CSSTransition timeout={300} classNames="slide">
-            <MoreInfo movieInfo={moreInfo} />
-          </CSSTransition>
-        )}
-      </TransitionGroup>
-
+      {isOpen && (
+        <MoreInfo movieInfo={moreInfo} />
+      )}
     </Wrapper >
-
   )
 }
 
@@ -72,31 +65,40 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 20px 0;
-  padding: 5px 10px;
+  height: 145px;
+  margin: 8px 0;
+  padding: 24px 24px;
   opacity: 1;
   transition: opacity 300ms ease-in-out;
+  background-color: ${p => p.theme["light-blue"]};
 
 
   .header {
-    display: flex;
-    justify-content: space-between;
-  }
+  display: flex;
+  justify-content: space-between;
+}
 
+img {
+  height: 93px;
+  width: 63px
+}
 
-  h2, h4 {
-    margin: 0;
-    font-size: 12px;
-  }
+h2, h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 4px 24px;
+}
 
-  h2 {
-    margin-right: 10px;
-    font-size: 18px;
-  }
+h2 {
+  margin-right: 10px;
+  font-size: 24px;
+  font-weight: 400
+}
 
   .more-info {
-    font-size: 12px;
-  }
+  font-size: 12px;
+}
 
-  ${applyStyleModifiers(MOVIEITEM_MODIFIERS)};
+${ applyStyleModifiers(MOVIEITEM_MODIFIERS)};
 `;
