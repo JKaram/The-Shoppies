@@ -15,7 +15,7 @@ const Bar = styled.div`
     background-color: #D4B037;
     width: ${p => `${p.progress * 20}%`};
     opacity: ${p => p.progress > 0 ? 1 : 0};
-    transition: all 1s;
+    transition: all .5s;
 
     border-radius: 4px;
 

@@ -1,16 +1,18 @@
-const apiKey = process.env.REACT_APP_OMDB_API_KEY
-const URL = "http://www.omdbapi.com/"
+const OMDB_API_URL = process.env.REACT_APP_OMDB_API_URL
+const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY
 
-// Request Movie List
-async function searchMovies(search, API = apiKey, url = URL) {
-    const fetchResponse = await fetch(`${url}?&apikey=${API}&s=${search}`);
+const omdbUrl = `${OMDB_API_URL}?&apikey=${OMDB_API_KEY}`;
+
+// Fetch movie list based on search
+async function fetchMovies(search) {
+    const fetchResponse = await fetch(`${omdbUrl}&s=${search}`);
     return await fetchResponse.json()
 }
 
-// Request More Info
-async function moreMovieInfo(movieId, API = apiKey, url = URL) {
-    const fetchResponse = await fetch(`${url}?&apikey=${API}&i=${movieId}`);
+// Request specific movie details
+async function fetchMovieDetails(movieId) {
+    const fetchResponse = await fetch(`${omdbUrl}&i=${movieId}`);
     return await fetchResponse.json()
 }
-export { searchMovies, moreMovieInfo }
 
+export { fetchMovies, fetchMovieDetails }

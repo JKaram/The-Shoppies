@@ -1,44 +1,35 @@
-import React, { useState, useCallback, useEffect } from "react";
-import styled from "styled-components";
-
-import { ThemeProvider } from 'styled-components/macro';
-import GlobalStyle from './Global';
-import theme from "themes/theme";
-import debounce from "lodash/debounce";
-import { useCookies } from 'react-cookie';
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import debounce from "lodash/debounce";
+import React, { useState, useCallback, useEffect } from "react";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { ThemeProvider } from 'styled-components';
 
-import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout, Spinner } from "./components"
-import { searchMovies } from "./utils"
+import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout, Spinner, Header } from "./components"
+import GlobalStyle from './Global';
 import { FadeIn } from "styles"
+import theme from "themes/theme";
+import { fetchMovies, getLocalNominations, setLocalNominations } from "./utils";
 
-function App() {
-  const [cookies, setCookie] = useCookies(['nominations']);
+const App = () => {
 
   const [state, setState] = useState({
-    searchTerm: "",
+    searchQuery: "",
     searchResults: [],
-    noms: [],
+    nominations: getLocalNominations(),
     loading: false,
   });
 
-  const { searchTerm, searchResults, noms, loading } = state;
+  const { searchQuery, searchResults, nominations, loading } = state;
 
-  // Set cookies
+  // Update local storage when nominations change
   useEffect(() => {
-    if (cookies.nominations) {
-      setState((prevState) => ({ ...prevState, noms: [...cookies.nominations] }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setLocalNominations(nominations);
+  }, [nominations]);
 
-  const search = async (text) => {
+  const search = async (query) => {
     setState((prevState) => ({ ...prevState, loading: true }));
-    const movieList = await searchMovies(text)
+    const movieList = await fetchMovies(query);
     setState((prevState) => ({ ...prevState, searchResults: movieList.Search }));
 
     setTimeout(function () {
@@ -50,34 +41,32 @@ function App() {
   };
 
   const debouncedSearch = useCallback(
-    debounce((text) => search(text), 250),
+    debounce((query) => search(query), 250),
     []
   );
 
-  const updateText = (text) => {
-    setState((prevState) => ({ ...prevState, searchTerm: text }));
+  const updateQuery = (query) => {
+    setState((prevState) => ({ ...prevState, query: query }));
   };
 
   const addNom = (newNom) => {
-    if (noms.length >= 5) return
-    if (noms.includes(newNom)) return
-    setState((prevState) => ({ ...prevState, noms: [...noms, newNom] }));
-    setCookie('nominations', noms);
+    if (nominations.length >= 5) return
+    if (nominations.includes(newNom)) return
+    setState((prevState) => ({ ...prevState, nominations: [...nominations, newNom] }));
   }
 
   const removeNom = (nomToRemove) => {
-    for (let i in noms) {
-      if (noms[i].imdbID === nomToRemove.imdbID) {
-        const updatedNoms = noms.filter(nom => nom.imdbID !== nomToRemove.imdbID)
-        setState((prevState) => ({ ...prevState, noms: updatedNoms }));
-        setCookie('nominations', noms);
+    for (let i in nominations) {
+      if (nominations[i].imdbID === nomToRemove.imdbID) {
+        const updatedNoms = nominations.filter(nom => nom.imdbID !== nomToRemove.imdbID)
+        setState((prevState) => ({ ...prevState, nominations: updatedNoms }));
       }
     }
   }
 
   const isNominated = (movieId) => {
-    for (let i in noms) {
-      if (noms[i].imdbID === movieId) {
+    for (let i in nominations) {
+      if (nominations[i].imdbID === movieId) {
         return true
       }
     }
@@ -95,16 +84,16 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <PageLayout>
+        <Header />
         <div style={{ display: "flex" }}>
 
           <SearchResultsArea >
             <SearchBar
-              searchTerm={searchTerm}
+              searchQuery={searchQuery}
               debouncedSearch={debouncedSearch}
-              updateText={updateText}
+              updateQuery={updateQuery}
               clearResults={clearResults}
             />
-
 
             {loading && <Spinner />}
 
@@ -121,10 +110,10 @@ function App() {
           </SearchResultsArea>
 
           <NominationArea>
-            <ProgressBar percent={noms.length} />
+            <ProgressBar percent={nominations.length} />
             <TransitionGroup component={FadeIn}>
-              {noms && (
-                noms.map(nom => (
+              {nominations && (
+                nominations.map(nom => (
                   <CSSTransition key={nom.Title} timeout={300} classNames="transition">
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 5px", margin: "10px 0" }}>
                       <h3>{nom.Title}</h3>

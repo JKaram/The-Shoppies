@@ -13,8 +13,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
-    padding: 65px 0 0;
-    height: 100vh;
+    padding: 0;
+    height: calc(100vh - 12px);
     background: #fbfbfb;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
       "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -25,8 +25,8 @@ const GlobalStyle = createGlobalStyle`
 
   main {
     width: 80%;
-    height: 100vh;
-    margin: 0 auto;
+    height: 100%;
+    margin: auto auto;
   }
 `;
 

@@ -4,7 +4,7 @@ import { applyStyleModifiers } from 'styled-components-modifiers';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { moreMovieInfo } from "utils";
+import { fetchMovieDetails } from "utils";
 import { MoreInfo, NominateButton } from "components"
 import { SlideIn } from "styles"
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +22,7 @@ export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
   }, [isNominated]);
 
   const loadMoreInfo = async () => {
-    const moreInfo = await moreMovieInfo(imdbID)
+    const moreInfo = await fetchMovieDetails(imdbID)
     setIsOpen(!isOpen)
     setMoreInfo(moreInfo)
   }
@@ -40,7 +40,7 @@ export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
         <div>
           <span className="more-info">
             <FontAwesomeIcon icon={faAngleUp} onClick={() => loadMoreInfo()} />
-          More Information
+          Learn More
           </span>
           <NominateButton onClick={() => isNominated ? removeNom(movieInfo) : addNom(movieInfo)}>Nominate</NominateButton>
 
