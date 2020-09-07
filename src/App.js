@@ -48,6 +48,7 @@ const App = () => {
     }, 1500);
   };
 
+  // Start search after typing has stopped
   const debouncedSearch = useCallback(
     debounce((query) => search(query), 250),
     []
