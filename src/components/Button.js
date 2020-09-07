@@ -27,7 +27,7 @@ export const ImdbButton = styled(NominateButton)`
     color: ${p => p.theme["dark-blue"]};
     border-color: ${p => p.theme["dark-blue"]};
     background-color: #fff;
-    height: 44px;
+    height: 36px;
     width: 100px;
 
 
