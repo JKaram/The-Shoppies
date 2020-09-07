@@ -20,7 +20,7 @@ Nominate five movies.
 ### Built With
 
 - [React](https://reactjs.org/)
-- [styled compoents](https://styled-components.com/)
+- [styled components](https://styled-components.com/)
 - [OMDb API](http://www.omdbapi.com/)
 
 ### Dependencies
