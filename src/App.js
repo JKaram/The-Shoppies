@@ -67,7 +67,6 @@ const App = () => {
     const updatedNominations = nominations.filter(
       (nom) => nom.imdbID !== movieId
     );
-
     setState((prevState) => ({ ...prevState, nominations: updatedNominations }));
   }
 
