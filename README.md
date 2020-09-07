@@ -1,4 +1,3 @@
-<!-- PROJECT LOGO -->
 <br />
 <p align="center">
 
@@ -10,8 +9,6 @@
   </p>
 </p>
 
-<!-- ABOUT THE PROJECT -->
-
 ## About The Project
 
 ![Screenshot of App](https://github.com/JKaram/The-Shoppies/blob/master/assets/theShoppies_v1.PNG?raw=true)
@@ -22,15 +19,9 @@ Nominate five movies.
 
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
 - [React](https://reactjs.org/)
 - [styled compoents](https://styled-components.com/)
 - [OMDb API](http://www.omdbapi.com/)
-
-<!-- GETTING STARTED -->
-
-## Getting Started
 
 ### Dependencies
 
