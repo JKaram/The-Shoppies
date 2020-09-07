@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 
 export const NominateButton = styled.button`
-    display:inline-block;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     border:0.1em solid #FFFFFF;
     padding: 20px 83px;
     border-radius:5px;
@@ -13,10 +15,24 @@ export const NominateButton = styled.button`
     background-color: ${p => p.theme["dark-blue"]};
     width: 240px;
     height: 60px;
+    cursor: pointer;
 
 
     &:hover{
     color:#fff;
     background-color:#D4B037;
+    }
+`
+export const ImdbButton = styled(NominateButton)`
+    color: ${p => p.theme["dark-blue"]};
+    border-color: ${p => p.theme["dark-blue"]};
+    background-color: #fff;
+    height: 44px;
+    width: 100px;
+
+
+    &:hover{
+    color:#fff;
+    background-color:${p => p.theme["dark-blue"]};
     }
 `
