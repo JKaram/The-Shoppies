@@ -83,6 +83,7 @@ const Wrapper = styled.div`
     justify-content: space-between;
   }
 
+
   h2, h4 {
     margin: 0;
     font-size: 12px;

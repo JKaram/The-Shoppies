@@ -128,7 +128,7 @@ function App() {
                   <CSSTransition key={nom.Title} timeout={300} classNames="transition">
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 5px", margin: "10px 0" }}>
                       <h3>{nom.Title}</h3>
-                      <FontAwesomeIcon icon={faTimes} onClick={() => removeNom(nom)} />
+                      <FontAwesomeIcon className="icon" icon={faTimes} onClick={() => removeNom(nom)} />
                     </div>
                   </CSSTransition>
                 ))
