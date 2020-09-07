@@ -5,7 +5,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { ThemeProvider } from 'styled-components';
 
-import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout, Spinner, Header } from "./components"
+import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout, Spinner, Header, NominationItem } from "./components"
 import GlobalStyle from './Global';
 import { FadeIn } from "styles"
 import theme from "themes/theme";
@@ -111,17 +111,16 @@ const App = () => {
               {nominations && (
                 nominations.map(nom => (
                   <CSSTransition key={nom.Title} timeout={300} classNames="transition">
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 5px", margin: "10px 0" }}>
+                    <NominationItem>
                       <h3>{nom.Title}</h3>
-                      <FontAwesomeIcon className="icon" icon={faTimes} onClick={() => removeNomination(nom.imdbID)} />
-                    </div>
+                      <FontAwesomeIcon className="icon" icon={faTimes} onClick={() => removeNomination(nom.imdbID)} size={"2x"} />
+                    </NominationItem>
                   </CSSTransition>
                 ))
               )}
             </TransitionGroup>
 
           </NominationArea>
-
         </div>
       </PageLayout>
     </ThemeProvider>
