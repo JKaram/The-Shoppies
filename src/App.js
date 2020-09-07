@@ -14,6 +14,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 import { SearchBar, SearchResultsArea, ProgressBar, NominationArea, MovieItem, PageLayout, Spinner } from "./components"
 import { searchMovies } from "./utils"
+import { FadeIn } from "styles"
 
 function App() {
   const [cookies, setCookie] = useCookies(['nominations']);
@@ -104,9 +105,10 @@ function App() {
               clearResults={clearResults}
             />
 
+
             {loading && <Spinner />}
 
-            {searchResults && !loading && (
+            {!loading && searchResults && (
               searchResults.map(searchResult => (
                 <MovieItem
                   key={searchResult.imdbID}
@@ -117,14 +119,15 @@ function App() {
               ))
             )}
           </SearchResultsArea>
+
           <NominationArea>
             <ProgressBar percent={noms.length} />
-            <TransitionGroup component={NomsHolder}>
+            <TransitionGroup component={FadeIn}>
               {noms && (
                 noms.map(nom => (
                   <CSSTransition key={nom.Title} timeout={300} classNames="transition">
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 5px", margin: "10px 0" }}>
-                      <div >{nom.Title}</div>
+                      <h3>{nom.Title}</h3>
                       <FontAwesomeIcon icon={faTimes} onClick={() => removeNom(nom)} />
                     </div>
                   </CSSTransition>
@@ -143,24 +146,3 @@ function App() {
 export default App;
 
 
-const NomsHolder = styled.div`
-
-  .transition-enter {
-    opacity: 0.01;
-    transform: translate(0, -10px);
-  }
-  .transition-enter-active {
-    opacity: 1;
-    transform: translate(0, 0);
-    transition: all 300ms ease-in;
-  }
-  .transition-exit {
-    opacity: 1;
-    transform: translate(0, 0);
-  }
-  .transition-exit-active {
-    opacity: 0.01;
-    transform: translate(0, 10px);
-    transition: all 300ms ease-in;
-  }
-`;

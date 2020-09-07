@@ -14,12 +14,14 @@ const Bar = styled.div`
     height: 3rem;
     background-color: #D4B037;
     width: ${p => `${p.progress * 20}%`};
-    transition: width .5s;
+    opacity: ${p => p.progress > 0 ? 1 : 0};
+    transition: all 1s;
+
     border-radius: 4px;
 
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 
     color: #fff;
     font-weight: bold;

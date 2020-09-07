@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { applyStyleModifiers } from 'styled-components-modifiers';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { moreMovieInfo } from "utils";
 import { MoreInfo, NominateButton } from "components"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { SlideIn } from "styles"
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons'
 
 
@@ -21,9 +23,8 @@ export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
 
   const loadMoreInfo = async () => {
     const moreInfo = await moreMovieInfo(imdbID)
-    setMoreInfo(moreInfo)
     setIsOpen(!isOpen)
-    return
+    setMoreInfo(moreInfo)
   }
 
   return (
@@ -35,9 +36,6 @@ export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
         <div style={{ display: "flex", alignItems: "center" }}>
           <h2>{movieInfo.Title}</h2>
           <h4>{movieInfo.Year}</h4>
-
-
-
         </div>
         <div>
           <span className="more-info">
@@ -48,8 +46,15 @@ export function MovieItem({ movieInfo, addNom, removeNom, isNominated }) {
 
         </div>
       </div>
-      {moreInfo && isOpen && (<MoreInfo movieInfo={moreInfo} />)}
-    </Wrapper>
+      <TransitionGroup component={SlideIn}>
+        {isOpen && moreInfo && (
+          <CSSTransition timeout={300} classNames="slide">
+            <MoreInfo movieInfo={moreInfo} />
+          </CSSTransition>
+        )}
+      </TransitionGroup>
+
+    </Wrapper >
 
   )
 }
@@ -63,13 +68,14 @@ const MOVIEITEM_MODIFIERS = {
   `,
 };
 
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 10px 0;
+  margin: 20px 0;
   padding: 5px 10px;
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
 
 
   .header {
