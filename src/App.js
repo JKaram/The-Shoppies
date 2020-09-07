@@ -28,10 +28,18 @@ const App = () => {
   }, [nominations]);
 
   const search = async (query) => {
+    // Show loading spinner
     setState((prevState) => ({ ...prevState, loading: true }));
-    const movieList = await fetchMovies(query);
-    setState((prevState) => ({ ...prevState, searchResults: movieList.Search }));
 
+    // Fetch movie list from search query
+    const response = await fetchMovies(query);
+
+    const results = response.Error ? [] : response.Search
+
+    // Update state with results
+    setState((prevState) => ({ ...prevState, searchResults: results }));
+
+    // Manually add some dead time to show loading bar for demo purposes
     setTimeout(function () {
       setState((prevState) => ({
         ...prevState,
@@ -46,32 +54,24 @@ const App = () => {
   );
 
   const updateQuery = (query) => {
-    setState((prevState) => ({ ...prevState, query: query }));
+    setState((prevState) => ({ ...prevState, searchQuery: query }));
   };
 
-  const addNom = (newNom) => {
+  const addNomination = (movieDetails) => {
     if (nominations.length >= 5) return
-    if (nominations.includes(newNom)) return
-    setState((prevState) => ({ ...prevState, nominations: [...nominations, newNom] }));
+    if (nominations.find((nom) => nom.imdbID === movieDetails.imdbID)) return;
+    setState((prevState) => ({ ...prevState, nominations: [...nominations, movieDetails] }));
   }
 
-  const removeNom = (nomToRemove) => {
-    for (let i in nominations) {
-      if (nominations[i].imdbID === nomToRemove.imdbID) {
-        const updatedNoms = nominations.filter(nom => nom.imdbID !== nomToRemove.imdbID)
-        setState((prevState) => ({ ...prevState, nominations: updatedNoms }));
-      }
-    }
+  const removeNomination = (movieId) => {
+    const updatedNominations = nominations.filter(
+      (nom) => nom.imdbID !== movieId
+    );
+
+    setState((prevState) => ({ ...prevState, nominations: updatedNominations }));
   }
 
-  const isNominated = (movieId) => {
-    for (let i in nominations) {
-      if (nominations[i].imdbID === movieId) {
-        return true
-      }
-    }
-    return false
-  }
+  const isNominated = (movieId) => !!nominations.find((nom) => nom.imdbID === movieId);
 
   const clearResults = () => {
     setState((prevState) => ({
@@ -86,7 +86,6 @@ const App = () => {
       <PageLayout>
         <Header />
         <div style={{ display: "flex" }}>
-
           <SearchResultsArea >
             <SearchBar
               searchQuery={searchQuery}
@@ -95,18 +94,16 @@ const App = () => {
               clearResults={clearResults}
             />
 
-            {loading && <Spinner />}
-
-            {!loading && searchResults && (
+            {loading ? <Spinner /> :
               searchResults.map(searchResult => (
-                <MovieItem
+                < MovieItem
                   key={searchResult.imdbID}
-                  addNom={addNom}
-                  removeNom={removeNom}
+                  addNomination={addNomination}
+                  removeNomination={removeNomination}
                   isNominated={isNominated(searchResult.imdbID)}
                   movieInfo={searchResult} />
               ))
-            )}
+            }
           </SearchResultsArea>
 
           <NominationArea>
@@ -117,7 +114,7 @@ const App = () => {
                   <CSSTransition key={nom.Title} timeout={300} classNames="transition">
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 5px", margin: "10px 0" }}>
                       <h3>{nom.Title}</h3>
-                      <FontAwesomeIcon className="icon" icon={faTimes} onClick={() => removeNom(nom)} />
+                      <FontAwesomeIcon className="icon" icon={faTimes} onClick={() => removeNomination(nom.imdbID)} />
                     </div>
                   </CSSTransition>
                 ))
