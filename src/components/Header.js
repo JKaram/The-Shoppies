@@ -4,12 +4,15 @@ import styled from "styled-components"
 export function Header() {
     return (
         <HeaderWrapper>
-            <h1>The Shoppies!</h1>
+            <h1>the <span>Shoppies</span></h1>
         </HeaderWrapper>
     )
 }
 
 const HeaderWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     margin: 12px 0;
     padding: 10px 15px;
@@ -19,6 +22,13 @@ const HeaderWrapper = styled.div`
     height: 12vh;
 
     h1 {
-        margin: 0
+        margin: 0;
+        font-weight: 400;
+
     }
+    span {
+        color: ${p => p.theme["shopify-green"]};
+        font-weight: 700;
+    }
+
 `
