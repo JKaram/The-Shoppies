@@ -24,19 +24,23 @@ export const FadeIn = styled.div`
 export const SlideIn = styled.div`
   .slide-enter {
     opacity: 0.01;
+    height: 0%;
   }
   .slide-enter-active {
     opacity: 1;
-    transition: all 500ms ease-in;
+    height: 100%;
+    transition: all 5s ease-in-out;
   }
 
   .slide-leave {
     opacity: 1;
-
+    height: 100%;
+    transition: all 1s ease-in-out;
   }
 
   .slide-leave-active {
     opacity: 0.01;
-    transition: all 100ms ease-in-out;
+    height: 0%;
+    transition: all 1s ease-in-out;
    }
 `
