@@ -14,9 +14,11 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Screenshot of App](https://github.com/JKaram/The-Shoppies/blob/master/assets/theShoppies_v1.PNG?raw=true)
 
 My submission for the UX Developer Intern & Web Developer Intern Challenge - Winter 2021 <br />
+
+Nominate five movies.
 
 ### Built With
 
@@ -30,15 +32,21 @@ This section should list any major frameworks that you built your project using.
 
 ## Getting Started
 
-### Prerequisites
+### Dependencies
 
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-
-```sh
-npm install npm@latest -g
-```
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "polished": "^3.6.6",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3",
+    "react-transition-group": "^4.4.1",
+    "styled-components": "^5.2.0",
+    "styled-components-modifiers": "^1.2.5"
 
 ### Installation
 
