@@ -29,7 +29,7 @@ const ClearButton = styled.button`
   font-weight: bold;
 `;
 
-export function SearchBar({ searchQuery, debouncedSearch, updateText, clearResults }) {
+export function SearchBar({ searchQuery, debouncedSearch, updateQuery, clearResults }) {
   return (
     <SearchBoxWrapper>
       <SearchInput
@@ -39,14 +39,14 @@ export function SearchBar({ searchQuery, debouncedSearch, updateText, clearResul
         maxLength="50"
         placeholder="Search Movie Title"
         onChange={(event) => {
-          updateText(event.target.value);
+          updateQuery(event.target.value);
           debouncedSearch(event.target.value);
         }}
       />
       <ClearButton
         onClick={() => {
           clearResults();
-          updateText("");
+          updateQuery("");
         }}
         disabled={!searchQuery}
       >
