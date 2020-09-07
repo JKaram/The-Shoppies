@@ -2,10 +2,17 @@ import React from 'react'
 import styled from "styled-components"
 
 export function ProgressBar({ percent }) {
-
     return (
         <div style={{ height: '3rem', backgroundColor: "#efefef", borderRadius: "4px" }}>
-            <Bar progress={percent} ><span className="percent">{percent}</span>&nbsp;/ 5</Bar>
+            <Bar progress={percent} >
+                {percent !== 5 ?
+                    <>
+                        <span className="percent">{percent}</span>&nbsp;/ 5
+                    </>
+                    :
+                    "Wow! Great Job!"
+                }
+            </Bar>
         </div >
     )
 }
