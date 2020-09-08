@@ -2,14 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from 'App';
 import * as serviceWorker from './serviceWorker';
-import { CookiesProvider } from 'react-cookie';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <CookiesProvider>
-      <App />
-    </CookiesProvider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
