@@ -20,12 +20,12 @@ Completely styled without using a CSS framework.
 ### Most Proud of ...
 
 - Live search using lodash debounce to limit API calls
-- Transistions. This is my first time useing React transition group. Defenitly need more practice.
+- Transitions. The Shoppies is my first time using React transition group. I need more practice.
 
 ### If I had more time ...
 
-- Media queries to make it mobile friendly.
-- Smoother transistions.
+- Media queries to make it mobile-friendly.
+- Smoother transitions.
 - How to use section.
 
 ### Built With
