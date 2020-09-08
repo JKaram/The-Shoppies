@@ -15,7 +15,18 @@
 
 My submission for the UX Developer Intern & Web Developer Intern Challenge - Winter 2021 <br />
 
-Nominate five movies.
+Completely styled without using a CSS framework.
+
+### Most Proud of ...
+
+- Live search using lodash debounce to limit API calls
+- Transistions. This is my first time useing React transition group. Defenitly need more practice.
+
+### If I had more time ...
+
+- Media queries to make it mobile friendly.
+- Smoother transistions.
+- How to use section.
 
 ### Built With
 
