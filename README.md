@@ -15,18 +15,21 @@
 
 My submission for the UX Developer Intern & Web Developer Intern Challenge - Winter 2021 <br />
 
-Completely styled without using a CSS framework.
-
 ### Most Proud of ...
 
+- Completely styled without using a CSS framework.
 - Live search using lodash debounce to limit API calls
-- Transitions. The Shoppies is my first time using React transition group. I need more practice.
+- Transitions. The Shoppies is my first time using React transition group.
+- Nomination lists save on refresh using local storage.
+- Seperate API call to load additional information about a movie.
+- Rotten Tomato score icon is based on the score of the movie.
 
 ### If I had more time ...
 
 - Media queries to make it mobile-friendly.
 - Smoother transitions.
-- How to use section.
+- More direction on how to use the app.
+- Less plain aesthetic.
 
 ### Built With
 
