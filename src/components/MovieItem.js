@@ -77,10 +77,13 @@ const Wrapper = styled.div`
   margin: 8px 0;
   padding: 24px 24px;
   opacity: 1;
-  transition: opacity 300ms ease-in-out;
+  transition: all 300ms ease-in-out;
   background-color: ${p => p.theme["light-blue"]};
   cursor: pointer;
 
+ &:hover {
+  background-color: ${p => p.theme["hover-blue"]};
+}
   .header {
   display: flex;
   justify-content: space-between;
@@ -104,7 +107,9 @@ h2 {
   font-weight: 400
 }
 
-  .more-info {
+
+
+.more-info {
   font-size: 12px;
 }
 
