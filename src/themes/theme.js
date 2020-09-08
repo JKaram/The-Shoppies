@@ -3,6 +3,7 @@ const theme = {
     secondary: '#DBDE61',
     font: '#2A2A2A',
     "light-blue": '#F8FBFF',
+    "hover-blue": "#edf4fc",
     "dark-blue": "#007BD8",
     "shopify-green": "#96bf48"
 };
