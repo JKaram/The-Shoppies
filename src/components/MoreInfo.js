@@ -24,13 +24,13 @@ export function MoreInfo({ movieInfo }) {
                     <ImdbButton>IMDB</ImdbButton>
                 </a>
             </div>
-            <div class="info-section">
-                <div class="info-text">
+            <div className="info-section">
+                <div className="info-text">
                     <h4>Director</h4>
                     <h3>{movieInfo.Director}</h3>
                 </div>
 
-                <div class="info-text">
+                <div className="info-text">
                     <h4>Actors</h4>
                     <h3>{movieInfo.Actors}</h3>
                 </div>
